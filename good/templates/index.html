@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}首页{% endblock %}
+
+
+{% block main %}
+{% block headerjs %}
+    <style>
+        .pageCls{
+            font-size: 24px;
+            color: red;
+        }
+    </style>
+{% endblock %}
+    <div class="classes">
+        <ul class="classes-items">
+            {% for category in categorys %}
+                <li class="items {% if category.id == currentId %} active{% endif %}"><a
+                        href="/category/{{ category.id }}">{{ category.cname }}</a></li>
+            {% endfor %}
+
+
+        </ul>
+    </div>
+
+    <div class="goods-model">
+        <div class="goods-content">
+            {% for good in goods %}
+            <div class="good">
+                <a href="/goodsdetails/{{ good.id }}">
+                    <img src="{{ good.getGoodImg }}" width="285px" height="285px">
+                    <p class="name">{{ good.gname }}</p>
+                    <div class="price">
+                        <i>￥</i>
+                        <p class="big">{{ good.price }}</p>
+                        <s>{{ good.oldprice }}</s>
+                    </div>
+                    <div class="sale">
+                        特卖
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div id="pager" style="text-align: center; font-size: 16px; overflow: hidden; margin-top: 10px;">
+        {%  if goods.has_previous %}
+        <a href="/category/{{ currentId }}/page/{{ goods.previous_page_number }}"
+           style="display: inline-block; padding: 5px; margin: 5px;">上一页</a>
+        {% endif %}
+    {% for pagegood in pagegoods %}
+        <a href="/category/{{ currentId }}/page/{{ pagegood }}" {% if currentNum == pagegood  %} class = "pageCls"{% endif %}
+           style="display: inline-block; padding: 5px; margin: 5px; ">{{ pagegood }}</a>
+
+    {% endfor %}
+        {%  if goods.has_next %}
+        <a href="/category/{{ currentId }}/page/{{ goods.next_page_number }}"
+           style="display: inline-block; padding: 5px; margin: 5px;">下一页</a>
+        {% endif %}
+
+
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block footerjs %}
+
+    <script>
+        $('#pager').css({'text-align': 'center', 'font-size': '16px', 'overflow': 'hidden', 'margin-top': '10px'})
+        $('#pager a').css({'display': 'inline-block', 'padding': '5px', 'margin': '5px'})
+
+    </script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
